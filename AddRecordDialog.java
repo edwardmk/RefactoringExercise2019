@@ -27,6 +27,11 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 	JComboBox<String> genderCombo, departmentCombo, fullTimeCombo;
 	JButton save, cancel;
 	EmployeeDetails parent;
+	String[] gender = { "", "M", "F" };
+	// department combo box values
+	String[] department = { "", "Administration", "Production", "Transport", "Management" };
+	// full time combo box values
+	String[] fullTime = { "", "Yes", "No" };
 	// constructor for add record dialog
 	public AddRecordDialog(EmployeeDetails parent) {
 		setTitle("Add Record");
@@ -45,6 +50,9 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		setVisible(true);
 	}// end AddRecordDialog
 
+	//Makes JLabels
+
+	
 	// initialize dialog container
 	public Container dialogPane() {
 		JPanel empDetails, buttonPanel;
@@ -53,29 +61,21 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 		JTextField field;
 
 		empDetails.setBorder(BorderFactory.createTitledBorder("Employee Details"));
-
+		JLabelFactory jbf = new JLabelFactory();
+		jbf.JLabelMaker(empDetails, "PPS Number:", ppsField, "growx, pushx, wrap");
+		jbf.JLabelMaker(empDetails, "Surname:", surnameField, "growx, pushx, wrap");
+		jbf.JLabelMaker(empDetails, "First Name:", firstNameField, "growx, pushx, wrap");
+		jbf.JLabelMaker(empDetails, "Salary:", salaryField, "growx, pushx, wrap");
+		
 		empDetails.add(new JLabel("ID:"), "growx, pushx");
 		empDetails.add(idField = new JTextField(20), "growx, pushx, wrap");
 		idField.setEditable(false);
-		
-
-		empDetails.add(new JLabel("PPS Number:"), "growx, pushx");
-		empDetails.add(ppsField = new JTextField(20), "growx, pushx, wrap");
-
-		empDetails.add(new JLabel("Surname:"), "growx, pushx");
-		empDetails.add(surnameField = new JTextField(20), "growx, pushx, wrap");
-
-		empDetails.add(new JLabel("First Name:"), "growx, pushx");
-		empDetails.add(firstNameField = new JTextField(20), "growx, pushx, wrap");
 
 		empDetails.add(new JLabel("Gender:"), "growx, pushx");
 		empDetails.add(genderCombo = new JComboBox<String>(this.parent.gender), "growx, pushx, wrap");
 
 		empDetails.add(new JLabel("Department:"), "growx, pushx");
 		empDetails.add(departmentCombo = new JComboBox<String>(this.parent.department), "growx, pushx, wrap");
-
-		empDetails.add(new JLabel("Salary:"), "growx, pushx");
-		empDetails.add(salaryField = new JTextField(20), "growx, pushx, wrap");
 
 		empDetails.add(new JLabel("Full Time:"), "growx, pushx");
 		empDetails.add(fullTimeCombo = new JComboBox<String>(this.parent.fullTime), "growx, pushx, wrap");
@@ -122,23 +122,25 @@ public class AddRecordDialog extends JDialog implements ActionListener {
 	}
 
 	// check for input in text fields
+	
+	public boolean checkEmpty(JTextField toBeChecked) {
+		if (toBeChecked.getText().isEmpty()) {
+			toBeChecked.setBackground(new Color(255, 150, 150));
+			return false;
+		}// end if
+		else{
+			return true;
+		}
+		
+	}
 	public boolean checkInput() {
 		boolean valid = true;
 		// if any of inputs are in wrong format, colour text field and display message
-		if (ppsField.getText().equals("")) {
-			ppsField.setBackground(new Color(255, 150, 150));
-			valid = false;
-		}// end if
+		valid = checkEmpty(ppsField);
+		valid = checkEmpty(firstNameField);
+		valid = checkEmpty(surnameField);
 		if (this.parent.correctPps(this.ppsField.getText().trim(), -1)) {
 			ppsField.setBackground(new Color(255, 150, 150));
-			valid = false;
-		}// end if
-		if (surnameField.getText().isEmpty()) {
-			surnameField.setBackground(new Color(255, 150, 150));
-			valid = false;
-		}// end if
-		if (firstNameField.getText().isEmpty()) {
-			firstNameField.setBackground(new Color(255, 150, 150));
 			valid = false;
 		}// end if
 		if (genderCombo.getSelectedIndex() == 0) {
