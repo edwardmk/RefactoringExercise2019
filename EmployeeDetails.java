@@ -67,7 +67,6 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 	boolean changesMade = false;
 	private JMenuItem open, save, saveAs, create, modify, delete, firstItem, lastItem, nextItem, prevItem, searchById,
 			searchBySurname, listAll, closeApp;
-	JMenuItem[] jmi = {open, save, saveAs, create, modify, delete, firstItem, lastItem, nextItem, prevItem, searchById, searchBySurname, listAll, closeApp};
 	private JButton first, previous, next, last, add, edit, deleteButton, displayAll, searchId, searchSurname,
 			saveChange, cancelChange;
 	JButton[] buttonArray = {first, previous, next, last, add, edit, deleteButton, displayAll, searchId, searchSurname, saveChange, cancelChange};
@@ -549,12 +548,15 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 		application.closeWriteFile();// close file for writing
 	}// end addRecord
 
+	public int CreateJOptionPane(String option1, String option2) {
+		return JOptionPane.showOptionDialog(frame, option1, option2,
+				JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+	}
 	// delete (make inactive - empty) record from file
 	private void deleteRecord() {
 		if (isSomeoneToDisplay()) {// if any active record in file display
 									// message and delete record
-			int returnVal = JOptionPane.showOptionDialog(frame, "Do you want to delete record?", "Delete",
-					JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+			int returnVal = CreateJOptionPane("Do you want to delete record?", "Delete"); 
 			// if answer yes delete (make inactive - empty) record
 			if (returnVal == JOptionPane.YES_OPTION) {
 				// open file for writing
@@ -797,8 +799,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 		// if old file is not empty or changes has been made, offer user to save
 		// old file
 		if (file.length() != 0 || change) {
-			int returnVal = JOptionPane.showOptionDialog(frame, "Do you want to save changes?", "Save",
-					JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+			int returnVal = CreateJOptionPane("Do you want to save changes?", "Save");
 			// if user wants to save file, save it
 			if (returnVal == JOptionPane.YES_OPTION) {
 				saveFile();// save file
@@ -832,8 +833,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 			// if changes has been made to text field offer user to save these
 			// changes
 			if (change) {
-				int returnVal = JOptionPane.showOptionDialog(frame, "Do you want to save changes?", "Save",
-						JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+				int returnVal = CreateJOptionPane("Do you want to save changes?", "Save"); 
 				// save changes if user choose this option
 				if (returnVal == JOptionPane.YES_OPTION) {
 					// save changes if ID field is not empty
@@ -857,8 +857,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 
 	// save changes to current Employee
 	private void saveChanges() {
-		int returnVal = JOptionPane.showOptionDialog(frame, "Do you want to save changes to current Employee?", "Save",
-				JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+		int returnVal = CreateJOptionPane("Do you want to save changes to current Employee?", "Save");
 		// if user choose to save changes, save changes
 		if (returnVal == JOptionPane.YES_OPTION) {
 			// open file for writing
@@ -918,8 +917,7 @@ public class EmployeeDetails extends JFrame implements ActionListener, ItemListe
 		// if file is not empty allow to save changes
 		if (file.length() != 0) {
 			if (changesMade) {
-				int returnVal = JOptionPane.showOptionDialog(frame, "Do you want to save changes?", "Save",
-						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+				int returnVal = CreateJOptionPane("Do you want to save changes?", "Save");
 				// if user chooses to save file, save file
 				if (returnVal == JOptionPane.YES_OPTION) {
 					saveFile();// save file
